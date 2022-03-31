@@ -6,7 +6,10 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class MainPage {
-  public SelenideElement seeAllToolsButton = $( "a.wt-button_mode_primary" );
-  public SelenideElement toolsMenu = $x( "//div[contains(@class, 'menu-main__item') and text() = 'Developer Tools']" );
-  public SelenideElement searchButton = $( "[data-test='menu-main-icon-search']" );
+  public SelenideElement html = $x( "//html[contains(@class, 'html--adaptive')]" );
+  public SelenideElement languageSwitcher = $x( "//li[contains(@class, 'header-settings__item header-settings__item_f')]" );
+  public SelenideElement russianLink = $x( "//a[contains(@href, '//fishki.net')]" );
+  public SelenideElement englishLink = $x( "//a[contains(@href, '//en.fishki.net')]" );
+  public SelenideElement changeData = $x( "//a[contains(@class, 'content__filter-link' ) and contains(@href, '#')]" );
+  public SelenideElement today = $x( "//div[contains(@class, 'core border today')]" );
 }
