@@ -212,5 +212,39 @@ public class MainPageTest {
     FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
   }
 
+  @ParameterizedTest
+  @CsvSource( {
+      "2009", "2010", "2011", "2012", "2013", "2014",
+      "2015", "2016", "2017", "2018", "2019", "2020", "2021" } )
+  public void testYearChangeToFirstOfCurrentMonth( int yearValue ) throws ParseException {
+    LOGGER.info( "Set year to {}", yearValue );
 
+    MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
+    MPAGE.SELECT_DATE_XPATH.hover( );
+
+    final SelenideElement prevArrow = $x( "//div[contains(@class, 'core border monyear')]//a[contains(@class, 'prev-arrow')]" );
+    prevArrow.shouldBe( visible );
+    prevArrow.click();
+
+    final SelenideElement nextArrow = $x( "//div[contains(@class, 'core border monyear')]//a[contains(@class, 'next-arrow')]" );
+    nextArrow.shouldBe( visible );
+    nextArrow.click();
+
+    final SelenideElement year = $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[2]" );
+    year.shouldBe( visible );
+    LOGGER.info( "Current year is {}", year.text() );
+    year.click( );
+
+    final SelenideElement yearSelector = $x("(//div[contains(@class, 'core border monyear title')]//div//select)[2]" );
+    yearSelector.shouldBe( visible );
+    yearSelector.selectOptionByValue( String.valueOf( yearValue ) );
+
+    year.shouldBe( visible );
+
+    final String beginText = changeToMonthBegin( 1 );
+
+    final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
+    FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
+    FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
+  }
 }
