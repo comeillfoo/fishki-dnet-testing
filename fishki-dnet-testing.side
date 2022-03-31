@@ -1,0 +1,68 @@
+{
+  "id": "3eea1a23-42e5-4cf4-b0f4-ba30b4fdfbce",
+  "version": "2.0",
+  "name": "fishki-dnet-testing",
+  "url": "https://fishki.net",
+  "tests": [{
+    "id": "c6c3be19-b549-4bdf-9467-765fee6d4879",
+    "name": "select-yesterday",
+    "commands": [{
+      "id": "634237c9-1446-42cd-ad2e-0188d45f1e70",
+      "comment": "",
+      "command": "open",
+      "target": "/?utm_source=aab&sign=305481661638544%2C539036833608562",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "df2f10af-e44f-4fb9-a3a2-4544d78c6259",
+      "comment": "",
+      "command": "click",
+      "target": "css=.core:nth-child(41)",
+      "targets": [
+        ["css=.core:nth-child(41)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[41]", "xpath:idRelative"],
+        ["xpath=//div[41]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "a0205dd1-b7e8-496b-b8ac-20e7af99ffab",
+    "name": "select-first-day-in-month",
+    "commands": [{
+      "id": "19cf640e-92e6-4012-82b3-504b8b3b6819",
+      "comment": "",
+      "command": "open",
+      "target": "/?utm_source=aab&sign=875244651924934%2C257629315828072",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b9f91cf3-b62e-468e-9450-6205f93b4477",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "974x532",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2005f1b2-ea85-4fde-8553-8da2d606d13d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.core:nth-child(12)",
+      "targets": [
+        ["css=.core:nth-child(12)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[12]", "xpath:idRelative"],
+        ["xpath=//div[12]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "e0448deb-af0f-426d-8cfb-2e7322ae1eb0",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["c6c3be19-b549-4bdf-9467-765fee6d4879"]
+  }],
+  "urls": ["https://fishki.net/"],
+  "plugins": []
+}
