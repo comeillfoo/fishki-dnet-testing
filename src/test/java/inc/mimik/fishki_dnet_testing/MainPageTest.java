@@ -90,18 +90,28 @@ public class MainPageTest {
     MPAGE.SELECT_DATE_XPATH.shouldHave( text( "за всё время" ) );
   }
 
-  @Test
-  public void testChangeToMonthBegin( ) throws ParseException {
+  private SelenideElement getCurrentMonth( ) {
+    return $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[1]" );
+  }
+
+  private SelenideElement getCurrentYear( ) {
+    return $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[2]" );
+  }
+
+  private String changeToMonthBegin( ) throws ParseException {
     MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
     MPAGE.SELECT_DATE_XPATH.hover( );
 
-    final SelenideElement month = $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[1]" );
-    final SelenideElement year = $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[2]" );
+    final SelenideElement month = getCurrentMonth( );
+    final SelenideElement year = getCurrentYear( );
 
-    MPAGE.SELECT_DATE_TODAY_XPATH.shouldBe( exist );
-    LOGGER.info( "Today is {} {} {}", MPAGE.SELECT_DATE_TODAY_XPATH.text(), month.text(), year.text() );
+    SelenideElement maybeToday = null;
+    if ( MPAGE.SELECT_DATE_TODAY_XPATH.is( exist ) ) {
+      maybeToday = MPAGE.SELECT_DATE_TODAY_XPATH;
+      LOGGER.info( "Today is {} {} {}", MPAGE.SELECT_DATE_TODAY_XPATH.text(), month.text(), year.text() );
+    } else maybeToday = $x( "//div[contains(@class, 'gldp-default')]//div[contains(@class, 'core')]" );
 
-    final List<SelenideElement> dates = MPAGE.SELECT_DATE_TODAY_XPATH.parent().findAll( ".core" );
+    final List<SelenideElement> dates = maybeToday.parent().findAll( ".core" );
     SelenideElement begin = null;
     for ( SelenideElement d : dates ) {
       d.shouldBe( visible );
@@ -124,9 +134,51 @@ public class MainPageTest {
     final Date beginDate = (new SimpleDateFormat( "dd MMM yyyy", new Locale( "ru" ) )).parse( MessageFormatter.arrayFormat( "{} {} {}", date ).getMessage() );
     final String beginText = (new SimpleDateFormat( "dd.MM.yyyy", new Locale( "ru" ))).format( beginDate );
     LOGGER.info( "Set date to {}", beginText );
+    return beginText;
+  }
+
+  @Test
+  public void testDateChangeToMonthBegin( ) throws ParseException {
+    String beginText = changeToMonthBegin();
+    final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
+    FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
+    FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
+  }
+
+  @Test
+  public void testMonthChangeToFirstJanuary( ) throws ParseException {
+    LOGGER.info( "Set month to January" );
+
+    MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
+    MPAGE.SELECT_DATE_XPATH.hover( );
+
+    final SelenideElement prevArrow = $x( "//div[contains(@class, 'core border monyear')]//a[contains(@class, 'prev-arrow')]" );
+    final SelenideElement nextArrow = $x( "//div[contains(@class, 'core border monyear')]//a[contains(@class, 'next-arrow')]" );
+    prevArrow.shouldBe( visible );
+    prevArrow.click();
+
+    nextArrow.shouldBe( visible );
+    nextArrow.click();
+
+    final SelenideElement month = $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[1]" );
+
+    month.shouldBe( visible );
+    month.click();
+
+    final SelenideElement monthSelector = $x( "//div[contains(@class, 'core border monyear title')]//div//select" );
+
+    monthSelector.shouldBe( visible );
+    monthSelector.selectOptionByValue( "0" ); // to select January
+
+    month.shouldBe( visible );
+    month.shouldHave( text( "Январь" ) );
+
+    final String beginText = changeToMonthBegin();
 
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
     FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
   }
+
+
 }

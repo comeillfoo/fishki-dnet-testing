@@ -54,6 +54,107 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "ddb02b88-38c7-485b-9251-2ec4c84428e0",
+    "name": "select-first-day-in-january",
+    "commands": [{
+      "id": "0e1759ec-7478-47fb-ba3d-9414a8c93d25",
+      "comment": "",
+      "command": "open",
+      "target": "/?utm_source=aab&sign=417618560395085%2C444234461830083",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3d1433ac-36e8-4174-a8ce-141ac042ad7e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "974x532",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "30cb69a1-ead0-477a-b889-3c0383bd8197",
+      "comment": "",
+      "command": "click",
+      "target": "css=.core span:nth-child(1)",
+      "targets": [
+        ["css=.core span:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[2]/div/span", "xpath:idRelative"],
+        ["xpath=//div[2]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Март')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7e6f4df1-9934-46fc-aa2f-aefd3c0ae914",
+      "comment": "",
+      "command": "click",
+      "target": "css=.jq-selectbox:nth-child(2) .jq-selectbox__select-text",
+      "targets": [
+        ["css=.jq-selectbox:nth-child(2) .jq-selectbox__select-text", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[2]/div/div/div/div", "xpath:idRelative"],
+        ["xpath=//div/div[2]/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a59b1ae9-88fb-4ed4-82b5-e8cbd88ab5a6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.content__filter > form",
+      "targets": [
+        ["css=.content__filter > form", "css:finder"],
+        ["xpath=//form[@action='/user/quickSettings/']", "xpath:attributes"],
+        ["xpath=//div[@id='main-content']/div/div/form", "xpath:idRelative"],
+        ["xpath=//div/form", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "972f188a-5055-4add-8583-5369055521aa",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=›",
+      "targets": [
+        ["linkText=›", "linkText"],
+        ["css=.next-arrow", "css:finder"],
+        ["xpath=//a[contains(text(),'›')]", "xpath:link"],
+        ["xpath=//div[@id='gldp-4255060049']/div[3]/a", "xpath:idRelative"],
+        ["xpath=//form/div/div/div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'›')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6249bf88-d43b-405d-a707-573809bdf5a7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.core:nth-child(1)",
+      "targets": [
+        ["css=.core:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div", "xpath:idRelative"],
+        ["xpath=//form/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ced463b-5329-4ada-be61-d35476aa31ac",
+      "comment": "",
+      "command": "click",
+      "target": "css=.core span:nth-child(1)",
+      "targets": [
+        ["css=.core span:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[2]/div/span", "xpath:idRelative"],
+        ["xpath=//div[2]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Март')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4dfdf2a-6fbe-4051-b1fd-07c4b8300f2d",
+      "comment": "",
+      "command": "click",
+      "target": "css=select:nth-child(2)",
+      "targets": [
+        ["css=select:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='gldp-4255060049']/div[2]/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "e0448deb-af0f-426d-8cfb-2e7322ae1eb0",
