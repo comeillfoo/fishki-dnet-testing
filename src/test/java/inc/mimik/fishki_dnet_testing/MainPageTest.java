@@ -339,7 +339,8 @@ public class MainPageTest {
       "мой некорректный логин", // cyrillic
       "theLongestLoginInTheWorldOfLoginsTHAT___shouldBreakTheLoginTest", // too long login
       "_", // less than 2 but correct symbol set
-      "!@#)&*^%$#*%^(Q*&$)@#_+$@*%_" // incorrect symbols
+      "!@#)&*^%$#*%^(Q*&$)@#_+$@*%_", // incorrect symbols
+      "\uD83E\uDD21\uD83E\uDD21" // 🤡🤡
   } )
   public void testIncorrectLoginInput( String incorrectLogin ) {
     openRegistrationWindow();
@@ -365,7 +366,8 @@ public class MainPageTest {
 
   @ParameterizedTest
   @CsvSource( {
-      "cinnamon_mystery"
+      "admin",
+      "cinnamon"
   } )
   public void testTakenLogins( String takenLogin ) {
     openRegistrationWindow();
@@ -384,5 +386,35 @@ public class MainPageTest {
     final SelenideElement errorText = loginInput.parent().$x( ".//div[contains(@class, 'error')]" );
     errorText.shouldBe( visible );
     errorText.shouldHave( text( "Выбранный логин уже используется: выберите другой." ) );
+  }
+
+  @ParameterizedTest
+  @CsvSource( {
+      "''",
+      "' '",
+      "'  '",
+      "'   '",
+      "1",
+      "12",
+      "123",
+      "a a",
+  } )
+  public void testIncorrectPassword( String incorrectPassword ) {
+    openRegistrationWindow();
+
+    final SelenideElement passInput = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//input[contains(@name, 'password') and contains(@type, 'password')]" );
+    passInput.shouldBe( visible );
+
+    LOGGER.info( "trying incorrect password: {}", incorrectPassword );
+    passInput.setValue( incorrectPassword );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = passInput.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Вы ввели некорректный пароль. Он может содержать любые символы, но его длина должна быть не менее четырех и не более 32-х символов." ) );
   }
 }
