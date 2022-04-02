@@ -383,6 +383,6 @@ public class MainPageTest {
 
     final SelenideElement errorText = loginInput.parent().$x( ".//div[contains(@class, 'error')]" );
     errorText.shouldBe( visible );
-    errorText.shouldHave( text( "Вы ввели некорректный логин. Он должен быть длиной не менее двух и не более 32-х символов. Допускаются только латинские буквы, цифры и символ подчёркивания." ) );
+    errorText.shouldHave( text( "Выбранный логин уже используется: выберите другой." ) );
   }
 }
