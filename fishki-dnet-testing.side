@@ -155,6 +155,121 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "19d19f6d-51b6-4297-b51d-102ba6b2adc2",
+    "name": "turn-user-agreement-checkbox",
+    "commands": [{
+      "id": "ad2fe58f-d12f-4b86-9b15-2b3100bd7c22",
+      "comment": "",
+      "command": "open",
+      "target": "/?utm_source=aab&sign=424940154554054%2C395784430323522",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d8bd18e4-97df-40e2-8fba-30c6030f0956",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "974x532",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef976547-ea16-48bd-906b-5a0867f51893",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Выход",
+      "targets": [
+        ["linkText=Выход", "linkText"],
+        ["css=.header-settings__second-level > li:nth-child(7) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Выход')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/user/logout/')]", "xpath:href"],
+        ["xpath=//li[2]/ul/li[7]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Выход')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c3576473-3a92-4473-a678-c326422364ae",
+      "comment": "",
+      "command": "type",
+      "target": "id=login",
+      "targets": [
+        ["id=login", "id"],
+        ["name=userlogin", "name"],
+        ["css=#login", "css:finder"],
+        ["xpath=//input[@id='login']", "xpath:attributes"],
+        ["xpath=//div[@id='show-auth']/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "cinnamon_mystery"
+    }, {
+      "id": "9af3591b-d489-4e4b-bb25-c892d78b6ed1",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=userpassword", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='show-auth']/form/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "BrQ5zyREsL7xMqi"
+    }, {
+      "id": "3afe588b-f06d-48bd-82e9-d9f08d66721e",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=small:nth-child(10)",
+      "targets": [
+        ["css=small:nth-child(10)", "css:finder"],
+        ["xpath=//div[@id='show-auth']/small", "xpath:idRelative"],
+        ["xpath=//small", "xpath:position"],
+        ["xpath=//small[contains(.,'Авторизация через Facebook (принадлежит компании Meta, которая признана в РФ экстремистской организацией и ее деятельность запрещена на территории РФ)')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba684768-5242-465e-a295-b14bf5d4e05f",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=small:nth-child(10)",
+      "targets": [
+        ["css=small:nth-child(10)", "css:finder"],
+        ["xpath=//div[@id='show-auth']/small", "xpath:idRelative"],
+        ["xpath=//small", "xpath:position"],
+        ["xpath=//small[contains(.,'Авторизация через Facebook (принадлежит компании Meta, которая признана в РФ экстремистской организацией и ее деятельность запрещена на территории РФ)')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9cab54c0-65cf-472a-90db-886e38e93e20",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6fad30b2-166a-4d72-842e-26c77c6dc151",
+      "comment": "",
+      "command": "click",
+      "target": "css=.simplemodal-close:nth-child(1) > strong",
+      "targets": [
+        ["css=.simplemodal-close:nth-child(1) > strong", "css:finder"],
+        ["xpath=//div[@id='show-auth']/div[2]/a/strong", "xpath:idRelative"],
+        ["xpath=//div[2]/a/strong", "xpath:position"],
+        ["xpath=//strong[contains(.,'Создать аккаунт на Фишках')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7cbe14d6-d9b3-4225-bf3a-8a936e35907a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.comments-form__checkboxes:nth-child(8) > label",
+      "targets": [
+        ["css=.comments-form__checkboxes:nth-child(8) > label", "css:finder"],
+        ["xpath=//div[@id='show-register']/form/div[7]/label", "xpath:idRelative"],
+        ["xpath=//div[7]/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Я принимаю условия пользовательского соглашения')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "e0448deb-af0f-426d-8cfb-2e7322ae1eb0",

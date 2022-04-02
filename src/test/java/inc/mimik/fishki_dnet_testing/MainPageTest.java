@@ -1,6 +1,8 @@
 package inc.mimik.fishki_dnet_testing;
 
+import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -20,8 +22,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MainPageTest {
   private final Logger LOGGER = LoggerFactory.getLogger( MainPageTest.class );
@@ -36,6 +38,8 @@ public class MainPageTest {
   @BeforeEach
   public void setUp( ) {
     open( "https://fishki.net/" );
+    clearBrowserCookies();
+    clearBrowserLocalStorage();
   }
 
   @Test
@@ -246,5 +250,139 @@ public class MainPageTest {
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
     FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
+  }
+
+  private void openRegistrationWindow() {
+    // open login window
+    MPAGE.LOGIN_BTN_XPATH.shouldBe( visible );
+    MPAGE.LOGIN_BTN_XPATH.click();
+
+    final SelenideElement AUTH_WINDOW = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[1]" );
+    AUTH_WINDOW.shouldBe( visible );
+
+    // open registration window
+    final SelenideElement CREATE_ACCOUNT_BTN = $x( "//a[contains(@class, 'simplemodal-close login-switcher') and contains(@href, '#')]" );
+    CREATE_ACCOUNT_BTN.shouldBe( exist );
+
+    CREATE_ACCOUNT_BTN.click( );
+  }
+
+  @Test
+  public void testRegistrationButton( ) {
+    openRegistrationWindow();
+
+    // check if registration window appears
+    final SelenideElement REGISTRATION_WINDOW = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]" );
+    REGISTRATION_WINDOW.shouldBe( visible );
+  }
+
+  @Test
+  public void testReturnBackButtonOnRegistration( ) {
+    openRegistrationWindow();
+
+    // click on return back button
+    final SelenideElement RETURN_BACK_BTN = $x( "//form[contains(@class, 'form-auth form-generic') and contains( @action, '/user/login/register' )]/a[contains( @class, 'login-switcher' ) and contains( @href, '#' )]" );
+    RETURN_BACK_BTN.shouldBe( visible );
+
+    RETURN_BACK_BTN.click();
+
+    // check if authorization window appeared
+    final SelenideElement AUTH_WINDOW = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[1]" );
+    AUTH_WINDOW.shouldBe( visible );
+  }
+
+  @Test
+  public void testDisagreeWithUserAgreement( ) {
+    openRegistrationWindow();
+
+    final SelenideElement userAgreementContainer = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]" ).$( "div.comments-form__checkboxes" );
+    userAgreementContainer.shouldBe( visible );
+    final SelenideElement userAgreementCheckBox = userAgreementContainer.$( "label" );
+    userAgreementCheckBox.shouldBe( visible );
+
+    userAgreementCheckBox.click( ClickOptions.usingJavaScript().offset( 0, 0 ) );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = userAgreementCheckBox.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Необходимо принять пользовательское соглашение" ) );
+  }
+
+  @Test
+  public void testDisagreeWithPersonalDataProcessing( ) {
+    openRegistrationWindow();
+
+    final SelenideElement personalDataContainer = $x( "((//div[contains(@class, 'modal modal-auth' )]/div)[3]//div[contains(@class, 'comments-form__checkboxes')])[2]" );
+    personalDataContainer.shouldBe( visible );
+    final SelenideElement personalDataCheckBox = personalDataContainer.$( "label" );
+    personalDataCheckBox.shouldBe( visible );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = personalDataCheckBox.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Необходимо согласиться с передачей и обработкой персональных данных" ) );
+  }
+
+  @ParameterizedTest
+  @CsvSource( {
+      "''", // empty
+      "' '", // less than 2 and spaces
+      "'                 '", // only spaces
+      "мой некорректный логин", // cyrillic
+      "theLongestLoginInTheWorldOfLoginsTHAT___shouldBreakTheLoginTest", // too long login
+      "_", // less than 2 but correct symbol set
+      "!@#)&*^%$#*%^(Q*&$)@#_+$@*%_" // incorrect symbols
+  } )
+  public void testIncorrectLoginInput( String incorrectLogin ) {
+    openRegistrationWindow();
+
+    final SelenideElement loginInput = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//input[contains(@name, 'login') and contains(@type, 'text')]" );
+    loginInput.shouldBe( visible );
+    /*
+     * Логин должен быть длиной не менее двух и не более 32-х символов
+     * Допускаются только латинские буквы, цифры и символ подчёркивания.
+     */
+    LOGGER.info( "trying incorrect login: {}", incorrectLogin );
+    loginInput.setValue( incorrectLogin );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = loginInput.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Вы ввели некорректный логин. Он должен быть длиной не менее двух и не более 32-х символов. Допускаются только латинские буквы, цифры и символ подчёркивания." ) );
+  }
+
+  @ParameterizedTest
+  @CsvSource( {
+      "cinnamon_mystery"
+  } )
+  public void testTakenLogins( String takenLogin ) {
+    openRegistrationWindow();
+
+    final SelenideElement loginInput = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//input[contains(@name, 'login') and contains(@type, 'text')]" );
+    loginInput.shouldBe( visible );
+
+    LOGGER.info( "trying taken login: {}", takenLogin );
+    loginInput.setValue( takenLogin );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = loginInput.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Вы ввели некорректный логин. Он должен быть длиной не менее двух и не более 32-х символов. Допускаются только латинские буквы, цифры и символ подчёркивания." ) );
   }
 }

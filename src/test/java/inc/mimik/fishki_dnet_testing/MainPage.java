@@ -12,4 +12,5 @@ public class MainPage {
   public final SelenideElement ENG_LANG_SWITCH_XPATH = $x( "//a[contains(@href, '//en.fishki.net')]" );
   public final SelenideElement SELECT_DATE_XPATH = $x( "//a[contains(@class, 'content__filter-link' ) and contains(@href, '#')]" );
   public final SelenideElement SELECT_DATE_TODAY_XPATH = $x( "//div[contains(@class, 'core border today')]" );
+  public final SelenideElement LOGIN_BTN_XPATH = $x( "//a[contains(@class, 'auth-show spr icon icon__logout' ) and contains(@href, '/user/login/' )]" );
 }
