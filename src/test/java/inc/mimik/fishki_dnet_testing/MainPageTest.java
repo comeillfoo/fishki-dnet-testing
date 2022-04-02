@@ -417,4 +417,33 @@ public class MainPageTest {
     errorText.shouldBe( visible );
     errorText.shouldHave( text( "Вы ввели некорректный пароль. Он может содержать любые символы, но его длина должна быть не менее четырех и не более 32-х символов." ) );
   }
+
+  @ParameterizedTest
+  @CsvSource( {
+      "'123456', '123'"
+  } )
+  public void testNotMatchingPasswords( String password, String anotherPassword ) {
+    openRegistrationWindow();
+
+    final SelenideElement passInput = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//input[contains(@name, 'password') and contains(@type, 'password')]" );
+    passInput.shouldBe( visible );
+
+    LOGGER.info( "entering password: {}", password );
+    passInput.setValue( password );
+
+    final SelenideElement rePassInput = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//input[contains(@name, 'repassword') and contains(@type, 'password')]" );
+    rePassInput.shouldBe( visible );
+
+    LOGGER.info( "repeating password: {}", anotherPassword );
+    rePassInput.setValue( anotherPassword );
+
+    final SelenideElement registrationButton = $x( "(//div[contains(@class, 'modal modal-auth' )]/div)[3]//button[contains(@class, 'btn-green btn-green--bdtl')]" );
+    registrationButton.shouldBe( visible );
+
+    registrationButton.click( );
+
+    final SelenideElement errorText = rePassInput.parent().$x( ".//div[contains(@class, 'error')]" );
+    errorText.shouldBe( visible );
+    errorText.shouldHave( text( "Вы ввели разные пароли в поля «Пароль» и «Подтверждение пароля»." ) );
+  }
 }
