@@ -2,7 +2,6 @@ package inc.mimik.fishki_dnet_testing;
 
 import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -23,7 +22,6 @@ import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class MainPageTest {
   private final Logger LOGGER = LoggerFactory.getLogger( MainPageTest.class );
@@ -104,7 +102,7 @@ public class MainPageTest {
     return $x( "(//div[contains(@class, 'core border monyear title')]//div//span)[2]" );
   }
 
-  private String changeToMonthBegin( int day ) throws ParseException {
+  private String changeToMonthDay( int day ) throws ParseException {
     MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
     MPAGE.SELECT_DATE_XPATH.hover( );
 
@@ -145,7 +143,7 @@ public class MainPageTest {
 
   @ParameterizedTest
   @CsvSource( { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" } )
-  public void testDateChangeToPreviousMonthBegin( int day ) throws ParseException {
+  public void testDateChangeToPreviousMonthDay( int day ) throws ParseException {
     MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
     MPAGE.SELECT_DATE_XPATH.hover( );
 
@@ -153,7 +151,7 @@ public class MainPageTest {
     prevArrow.shouldBe( visible );
     prevArrow.click();
 
-    String beginText = changeToMonthBegin( day );
+    String beginText = changeToMonthDay( day );
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
     FIRST_DAY_SELECT_DATE_XPATH.shouldHave( text( "за " + beginText ) );
@@ -216,7 +214,7 @@ public class MainPageTest {
     month.shouldBe( visible );
     month.shouldHave( text( MONTHS[ monthValue ] ));
 
-    final String beginText = changeToMonthBegin( 1 );
+    final String beginText = changeToMonthDay( 1 );
 
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
@@ -252,7 +250,7 @@ public class MainPageTest {
 
     year.shouldBe( visible );
 
-    final String beginText = changeToMonthBegin( 1 );
+    final String beginText = changeToMonthDay( 1 );
 
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
