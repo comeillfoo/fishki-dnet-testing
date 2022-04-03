@@ -145,7 +145,14 @@ public class MainPageTest {
 
   @ParameterizedTest
   @CsvSource( { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" } )
-  public void testDateChangeToMonthBegin( int day ) throws ParseException {
+  public void testDateChangeToPreviousMonthBegin( int day ) throws ParseException {
+    MPAGE.SELECT_DATE_XPATH.shouldBe( exist );
+    MPAGE.SELECT_DATE_XPATH.hover( );
+
+    final SelenideElement prevArrow = $x( "//div[contains(@class, 'core border monyear')]//a[contains(@class, 'prev-arrow')]" );
+    prevArrow.shouldBe( visible );
+    prevArrow.click();
+
     String beginText = changeToMonthBegin( day );
     final SelenideElement FIRST_DAY_SELECT_DATE_XPATH = $x( "//span[contains(@class, 'content__filter-label' )]" );
     FIRST_DAY_SELECT_DATE_XPATH.shouldBe( exist );
@@ -340,7 +347,6 @@ public class MainPageTest {
       "theLongestLoginInTheWorldOfLoginsTHAT___shouldBreakTheLoginTest", // too long login
       "_", // less than 2 but correct symbol set
       "!@#)&*^%$#*%^(Q*&$)@#_+$@*%_", // incorrect symbols
-      "\uD83E\uDD21\uD83E\uDD21" // 🤡🤡
   } )
   public void testIncorrectLoginInput( String incorrectLogin ) {
     openRegistrationWindow();
@@ -420,7 +426,15 @@ public class MainPageTest {
 
   @ParameterizedTest
   @CsvSource( {
-      "'123456', '123'"
+      "'123', '456'", // totally not matching passwords
+      "'aaab', 'aaa'", // common prefix
+      "'aab', 'aa'",
+      "'ab', 'a'",
+      "'ba', 'a'", // common suffix
+      "'baa', 'aa'",
+      "'baaa', 'aaa'",
+      "'baaab', 'aaa'", // substring
+      "'bbaabb', 'aa'"
   } )
   public void testNotMatchingPasswords( String password, String anotherPassword ) {
     openRegistrationWindow();
